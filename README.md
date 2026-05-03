@@ -1,2 +1,2 @@
-# missing
-Missing persons descktop application built in python.
+# Missing
+Missing persons desktop application built in python.
