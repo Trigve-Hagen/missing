@@ -1,0 +1,31 @@
+<!-- templates/includes/main_menu.html -->
+<nav class="navbar navbar-expand-lg bg-dark border-bottom border-body" data-bs-theme="dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Missing Persons</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarText">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link{% if request.endpoint == 'index' %} active{% endif %}" href="{{ url_for('index') }}">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link{% if request.endpoint == 'category' %} active{% endif %}" href="{{ url_for('category') }}">Category</a>
+        </li>
+        <div class="dropdown">
+          <a class="nav-link dropdown-toggle{% if request.endpoint == 'person' %} active{% endif %}" type="button" id="person-dropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            Person
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="person-dropdown">
+            <li><a class="dropdown-item" href="{{ url_for('person') }}">Person</a></li>
+            <li><a class="dropdown-item" href="{{ url_for('alias') }}">Alias</a></li>
+            <li><a class="dropdown-item" href="{{ url_for('address') }}">Address</a></li>
+            <li><a class="dropdown-item" href="{{ url_for('phone') }}">Phone</a></li>
+            <li><a class="dropdown-item" href="{{ url_for('email') }}">Email</a></li>
+          </ul>
+        </div>
+      </ul>
+    </div>
+  </div>
+</nav>

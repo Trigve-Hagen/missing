@@ -1,0 +1,93 @@
+<!-- templates/search.html -->
+{% extends 'layout.html' %}
+
+{% block title %}Edit Address{% endblock %}
+
+{% block content %}
+
+<h1 class="my-4">Edit Address</h1>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="alert alert-{{ category }}">
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+<div class="row">
+  <div class="col-md-12">
+    <a href="{{ url_for('address') }}" class="btn btn-primary mb-3">back</a>
+  </div>
+</div>
+
+<div class="row mt-5">
+  <div class="col-md-12">
+    <form class="row g-4" action="/set_address" method="POST" name="address" autocomplete="off">
+      <input type="hidden" class="form-control" id="address-id" name="id" value="{{ address_data.id }}" />
+      <div class="col-md-6">
+        <label for="address-type" class="form-label">Type</label>
+        <select class="form-select" id="address-type" name="type" required>
+          <option value="">Choose...</option>
+          {% for type in addressTypes %}
+            {% if address_data.addressType == type.id %}
+              <option value="{{ type.id }}" selected>{{ type.name }}</option>
+            {% else %}
+              <option value="{{ type.id }}">{{ type.name }}</option>
+            {% endif %}
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-md-6">
+        <label for="address-name" class="form-label">Name</label>
+        <input type="text" class="form-control" id="address-name" name="name" value="{{ address_data.name }}" required>
+      </div>
+      <div class="col-md-6">
+        <label for="address-address1" class="form-label">Address 1</label>
+        <input type="text" class="form-control" id="address-address1" name="address1" value="{{ address_data.address1 }}" required>
+      </div>
+      <div class="col-md-6">
+        <label for="address-address2" class="form-label">Address 2</label>
+        <input type="text" class="form-control" id="address-address2" name="address2" value="{{ address_data.address2 }}">
+      </div>
+      <div class="col-md-3">
+        <label for="address-city" class="form-label">City</label>
+        <input type="text" class="form-control" id="address-city" name="city" value="{{ address_data.city }}" required>
+      </div>
+      <div class="col-md-3">
+        <label for="address-state" class="form-label">State</label>
+        <input type="text" class="form-control" id="address-state" name="state" value="{{ address_data.state }}" required>
+      </div>
+      <div class="col-md-3">
+        <label for="address-zip5" class="form-label">Zip 5</label>
+        <input type="text" class="form-control" id="address-zip5" name="zip5" value="{{ address_data.zip5 }}" required>
+      </div>
+      <div class="col-md-3">
+        <label for="address-zip4" class="form-label">Zip 4</label>
+        <input type="text" class="form-control" id="address-zip4" name="zip4" value="{{ address_data.zip4 }}">
+      </div>
+      <div class="col-md-4">
+        <label for="address-owner" class="form-label">Person</label>
+        <select class="form-select" id="address-owner" name="owner" required>
+          <option value="">Choose...</option>
+          {% for person in owners %}
+            {% if address_data.owner == person.id %}
+              <option value="{{ person.id }}" selected>{{ person.sirName }} {{ person.firstName }} {{ person.middleName }} {{ person.lastName }} {{ person.suffix }}</option>
+            {% else %}
+              <option value="{{ person.id }}">{{ person.sirName }} {{ person.firstName }} {{ person.middleName }} {{ person.lastName }} {{ person.suffix }}</option>
+            {% endif %}
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-12 mb-5">
+        <button class="btn btn-primary" type="submit">Save</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+{% include 'includes/delete_modal.html' %}
+
+{% endblock %}

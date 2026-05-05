@@ -1,0 +1,157 @@
+<!-- templates/person.html -->
+{% extends 'layout.html' %}
+
+{% block title %}People{% endblock %}
+
+{% block content %}
+
+<h1 class="my-4">People</h1>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="alert alert-{{ category }}">
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+<div class="row">
+  <div class="col-md-3">
+    {% include 'includes/sidebar_menu.html' %}
+  </div>
+  <div class="col-md-9">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Name</th>
+          <th scope="col">Type</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for person, cat_name in people %}
+          <tr>
+              <td scope="row">{{ person.id }}</td>
+              <td>{{ person.sirName }} {{ person.firstName }} {{ person.middleName }} {{ person.lastName }} {{ person.suffix }}</td>
+              <td>{{ cat_name }}</td>
+              <td><a class="btn btn-secondary" href="{{ url_for('edit_person', id=person.id) }}">Edit</a><a class="btn btn-danger ms-2" type="button" data-bs-toggle="modal" data-bs-target="#deleteModal" data-bs-item-type="person" data-bs-item-id="{{ person.id }}" data-bs-item="{{ person.sirName }} {{ person.firstName }} {{ person.middleName }} {{ person.lastName }} {{ person.suffix }}">Delete</a></td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<hr>
+
+<h3 class="my-4">Add Person</h3>
+
+<div class="row mt-5">
+  <div class="col-md-12">
+    <form class="row g-4" action="/set_person" method="POST" name="person" autocomplete="off">
+      <input type="hidden" class="form-control" id="person-id" name="id" />
+      <div class="col-md-6">
+        <label for="person-type" class="form-label">Contact Type</label>
+        <select class="form-select" id="person-type" name="type" required>
+          <option value="">Choose...</option>
+          {% for type in contactTypes %}
+            <option value="{{ type.id }}">{{ type.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-md-6">
+        <label for="person-sirName" class="form-label">Sir Name</label>
+        <select class="form-select" id="person-sirName" name="sirName">
+          <option value="">Choose...</option>
+          {% for name in sir_names %}
+            <option value="{{ name }}">{{ name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-md-3">
+        <label for="person-firstName" class="form-label">First name</label>
+        <input type="text" class="form-control" id="person-firstName" name="firstName" value="" required>
+      </div>
+      <div class="col-md-3">
+        <label for="person-middleName" class="form-label">Middle name</label>
+        <input type="text" class="form-control" id="person-middleName" name="middleName" value="">
+      </div>
+      <div class="col-md-3">
+        <label for="person-lastName" class="form-label">Last name</label>
+        <input type="text" class="form-control" id="person-lastName" name="lastName" value="" required>
+      </div>
+      <div class="col-md-3">
+        <label for="person-suffix" class="form-label">Suffix</label>
+        <select class="form-select" id="person-suffix" name="suffix">
+          <option value="">Choose...</option>
+          {% for s in suffixes %}
+            <option value="{{ s }}">{{ s }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-md-3">
+        <label for="person-height" class="form-label">Height - In Feet and Inches</label>
+        <select class="form-select" id="person-height" name="height">
+          <option value="">Choose...</option>
+          {% for value, label in height_options %}
+            <option value="{{ value }}">{{ label }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-md-3">
+        <label for="person-weight" class="form-label">Weight - In Pounds</label>
+        <select class="form-select" id="person-weight" name="weight">
+          <option value="">Choose...</option>
+          {% for w in weight_options %}
+            <option value="{{ w }}">{{ w }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-md-3">
+        <label for="person-hairColor" class="form-label">Hair Color</label>
+        <select class="form-select" id="person-hairColor" name="hairColor">
+          <option value="">Choose...</option>
+          {% for value, label in hair_color_codes %}
+            <option value="{{ value }}">{{ label }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-md-3">
+        <label for="person-eyeColor" class="form-label">Eye Color</label>
+        <select class="form-select" id="person-eyeColor" name="eyeColor">
+          <option value="">Choose...</option>
+          {% for color in eye_colors %}
+            <option value="{{ color }}">{{ color }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-md-6">
+        <label for="person-ssn" class="form-label">SSN</label>
+        <input type="text" class="form-control" id="person-ssn" name="ssn" pattern="^\d{3}-\d{2}-\d{4}$"
+          placeholder="XXX-XX-XXXX">
+      </div>
+      <div class="col-md-3">
+        <label for="person-gender" class="form-label">Gender</label>
+        <select class="form-select" id="person-gender" name="gender" required>
+          <option value="">Choose...</option>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+        </select>
+      </div>
+      <div class="col-md-3">
+        <label for="person-dob" class="form-label">DOB</label>
+        <input type="date" class="form-control" id="person-dob" name="dob" required>
+      </div>
+      <div class="col-12 mb-5">
+        <button class="btn btn-primary" type="submit">Save</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+{% include 'includes/delete_modal.html' %}
+
+{% endblock %}

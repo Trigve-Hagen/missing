@@ -1,0 +1,30 @@
+/* menu */
+.main-menu {
+  padding: 10px;
+}
+
+.main-menu ul {
+  display: flex;
+  list-style-type: none;
+  gap: 15px;
+}
+
+.main-menu li {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.main-menu ul li:first-child a {
+  width: 100%;
+  display: block;
+  padding: 7px 10px;
+  /* border-top: 1px solid var(--font-color4);
+  border-bottom: 1px solid var(--font-color4); */
+}
+
+.main-menu ul li:not(:first-child) a {
+  width: 100%;
+  display: block;
+  padding: 7px 10px;
+  /* border-bottom: 1px solid var(--font-color4); */
+}

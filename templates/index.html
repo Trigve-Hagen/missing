@@ -1,0 +1,48 @@
+<!-- templates/index.html -->
+{% extends 'layout.html' %}
+
+{% block title %}Home Page{% endblock %}
+
+{% block content %}
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="alert alert-{{ category }}">
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+<h1 class="my-4 mb-0">Missing Persons</h1>
+<p class="mt-0">The plan is to create a release for each stage. Write and test the stage. Create an .exe file. Build it into an installer. Write docs for installation and usage. Upload to my website so it can be downloaded.</p>
+
+<h3 class="my-3 mb-0">Stage 1</h3>
+<p class="mt-0">Build out the database for Person and Categories.</p>
+
+<h3 class="my-3 mb-0">Stage 2</h3>
+<p class="mt-0">Build out the database and pages for consuming APIs. Users use a form to run the API to get data from whatever API they choose to use.</p>
+
+<h3 class="my-3 mb-0">Stage 3</h3>
+<p class="mt-0">Build out the vector database to save the API data for the Ollama model. Users can refine the data.</p>
+
+<h3 class="my-3 mb-0">Stage 4</h3>
+<p class="mt-0">Build out training functionality for the Ollama LLM. Users can train and retrain models as they build and refine the data.</p>
+
+<h3 class="my-3 mb-0">Stage 5</h3>
+<p class="mt-0">Build out prompt functionality for the Ollama LLM. Users can create questions to use when prompting the LLM.</p>
+
+<h3 class="my-3 mb-0">Stage 6</h3>
+<p class="mt-0">Use the data gathered from the APIs to build timelines for each person.</p>
+
+<h3 class="my-3 mb-0">Stage 7</h3>
+<p class="mt-0">Add images and video to the person object to use when looking though images and videos for matching.</p>
+
+<h3 class="my-3 mb-0">Stage 8</h3>
+<p class="mt-0">Build ability to train a model on video and images.</p>
+
+<h3 class="my-3 mb-0">Stage 8</h3>
+<p class="mt-0">Build out functionality for testing and viewing data from videos and images.</p>
+
+{% endblock %}

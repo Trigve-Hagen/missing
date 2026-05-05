@@ -1,0 +1,77 @@
+<!-- templates/search.html -->
+{% extends 'layout.html' %}
+
+{% block title %}Categories{% endblock %}
+
+{% block content %}
+
+<h1 class="my-4">Categories</h1>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="alert alert-{{ category }}">
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+<div class="row">
+  <div class="col-md-3">
+    {% include 'includes/sidebar_menu.html' %}
+  </div>
+  <div class="col-md-9">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Name</th>
+          <th scope="col">Category Type</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for category in categories %}
+          <tr>
+              <td scope="row">{{ category.id }}</td>
+              <td>{{ category.name }}</td>
+              <td>{{ category.type }}</td>
+              <td><a class="btn btn-secondary" href="{{ url_for('edit_category', id=category.id) }}">Edit</a><a class="btn btn-danger ms-2" type="button" data-bs-toggle="modal" data-bs-target="#deleteModal" data-bs-item-type="category" data-bs-item-id="{{ category.id }}" data-bs-item="{{ category.name }}">Delete</a></td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<hr>
+<h3 class="my-4">Add Category</h3>
+
+<div class="row mt-5">
+  <div class="col-md-12">
+    <form class="row g-4" action="/set_category" method="POST" name="category" autocomplete="off">
+      <input type="hidden" class="form-control" id="category-id" name="id" />
+      <div class="col-md-6">
+        <label for="category-type" class="form-label">Type</label>
+        <select class="form-select" id="category-type" name="type" required>
+          <option value="">Choose...</option>
+          {% for value, label in category_types %}
+            <option value="{{ value }}">{{ label }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-md-6">
+        <label for="category-name" class="form-label">Name</label>
+        <input type="text" class="form-control" id="category-name" name="name" required>
+      </div>
+      <div class="col-12 mb-5">
+        <button class="btn btn-primary" type="submit">Save</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+{% include 'includes/delete_modal.html' %}
+
+{% endblock %}

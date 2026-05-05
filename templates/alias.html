@@ -1,0 +1,107 @@
+<!-- templates/search.html -->
+{% extends 'layout.html' %}
+
+{% block title %}Aliases{% endblock %}
+
+{% block content %}
+
+<h1 class="my-4">Aliases</h1>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="alert alert-{{ category }}">
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+<div class="row">
+  <div class="col-md-3">
+    {% include 'includes/sidebar_menu.html' %}
+  </div>
+  <div class="col-md-9">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Name</th>
+          <th scope="col">Person</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for alias in aliases %}
+          <tr>
+              <td scope="row">{{ alias.id }}</td>
+              <td>{{ alias.sirName }} {{ alias.firstName }} {{ alias.middleName }} {{ alias.lastName }} {{ alias.suffix }}</td>
+              {% for person in owners %}
+                {% if person.id == alias.owner %}
+                  <td>{{ person.sirName }} {{ person.firstName }} {{ person.middleName }} {{ person.lastName }} {{ person.suffix }}</td>
+                {% endif %}
+              {% endfor %}
+              <td><a class="btn btn-secondary" href="{{ url_for('edit_alias', id=alias.id) }}">Edit</a><a class="btn btn-danger ms-2" type="button" data-bs-toggle="modal" data-bs-target="#deleteModal" data-bs-item-type="alias" data-bs-item-id="{{ alias.id }}" data-bs-item="{{ alias.sirName }} {{ alias.firstName }} {{ alias.middleName }} {{ alias.lastName }} {{ alias.suffix }}">Delete</a></td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<hr>
+<h3 class="my-4">Add Alias</h3>
+
+<div class="row mt-5">
+  <div class="col-md-12">
+    <form class="row g-4" action="/set_alias" method="POST" name="alias" autocomplete="off">
+      <input type="hidden" class="form-control" id="alias-id" name="id" />
+      <div class="col-md-6">
+        <label for="alias-sirName" class="form-label">Sir Name</label>
+        <select class="form-select" id="alias-sirName" name="sirName">
+          <option value="">Choose...</option>
+          {% for name in sir_names %}
+            <option value="{{ name }}">{{ name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-md-6">
+        <label for="alias-suffix" class="form-label">Suffix</label>
+        <select class="form-select" id="alias-suffix" name="suffix">
+          <option value="">Choose...</option>
+          {% for s in suffixes %}
+            <option value="{{ s }}">{{ s }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-md-4">
+        <label for="alias-firstName" class="form-label">First name</label>
+        <input type="text" class="form-control" id="alias-firstName" name="firstName" value="" required>
+      </div>
+      <div class="col-md-4">
+        <label for="alias-middleName" class="form-label">Middle name</label>
+        <input type="text" class="form-control" id="alias-middleName" name="middleName" value="">
+      </div>
+      <div class="col-md-4">
+        <label for="alias-lastName" class="form-label">Last name</label>
+        <input type="text" class="form-control" id="alias-lastName" name="lastName" value="">
+      </div>
+      <div class="col-md-3">
+        <label for="alias-owner" class="form-label">Person</label>
+        <select class="form-select" id="alias-owner" name="owner" required>
+          <option value="">Choose...</option>
+          {% for person in owners %}
+            <option value="{{ person.id }}">{{ person.sirName }} {{ person.firstName }} {{ person.middleName }} {{ person.lastName }} {{ person.suffix }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-12 mb-5">
+        <button class="btn btn-primary" type="submit">Submit form</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+{% include 'includes/delete_modal.html' %}
+
+{% endblock %}

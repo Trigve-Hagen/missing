@@ -1,0 +1,29 @@
+<!-- templates/view_person.html -->
+{% extends 'layout.html' %}
+
+{% block title %}View Person{% endblock %}
+
+{% block content %}
+
+<h1 class="my-4">View Person</h1>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="alert alert-{{ category }}">
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+<div class="row">
+  <div class="col-md-3">
+    {% include 'includes/sidebar_menu.html' %}
+  </div>
+  <div class="col-md-9">
+    <h3 class="my-4">Be here soon.</h3>
+  </div>
+</div>
+
+{% endblock %}

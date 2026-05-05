@@ -1,0 +1,90 @@
+<!-- templates/search.html -->
+{% extends 'layout.html' %}
+
+{% block title %}Phones{% endblock %}
+
+{% block content %}
+
+<h1 class="my-4">Phones</h1>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="alert alert-{{ category }}">
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+<div class="row">
+  <div class="col-md-3">
+    {% include 'includes/sidebar_menu.html' %}
+  </div>
+  <div class="col-md-9">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Email</th>
+          <th scope="col">Person</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for phone in phones %}
+          <tr>
+              <td scope="row">{{ phone.id }}</td>
+              <td>{{ phone.phone }}</td>
+              {% for person in owners %}
+                {% if person.id == phone.owner %}
+                  <td>{{ person.sirName }} {{ person.firstName }} {{ person.middleName }} {{ person.lastName }} {{ person.suffix }}</td>
+                {% endif %}
+              {% endfor %}
+              <td><a class="btn btn-secondary" href="{{ url_for('edit_phone', id=phone.id) }}">Edit</a><a class="btn btn-danger ms-2" type="button" data-bs-toggle="modal" data-bs-target="#deleteModal" data-bs-item-type="phone" data-bs-item-id="{{ phone.id }}" data-bs-item="{{ phone.phone }}">Delete</a></td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<hr>
+<h3 class="my-4">Add Phone</h3>
+
+<div class="row mt-5">
+  <div class="col-md-12">
+    <form class="row g-4" action="/set_phone" method="POST" name="phone" autocomplete="off">
+      <input type="hidden" class="form-control" id="phone-id" name="id" />
+      <div class="col-md-6">
+        <label for="phone-type" class="form-label">Type</label>
+        <select class="form-select" id="phone-type" name="type" required>
+          <option value="">Choose...</option>
+          {% for type in phoneTypes %}
+            <option value="{{ type.id }}">{{ type.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-md-6">
+        <label for="phone-phone" class="form-label">Phone</label>
+        <input type="tel" class="form-control" id="phone-phone" name="phone" required>
+      </div>
+      <div class="col-md-4">
+        <label for="phone-owner" class="form-label">Person</label>
+        <select class="form-select" id="phone-owner" name="owner" required>
+          <option value="">Choose...</option>
+          {% for person in owners %}
+            <option value="{{ person.id }}">{{ person.sirName }} {{ person.firstName }} {{ person.middleName }} {{ person.lastName }} {{ person.suffix }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-12 mb-5">
+        <button class="btn btn-primary" type="submit">Save</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+{% include 'includes/delete_modal.html' %}
+
+{% endblock %}

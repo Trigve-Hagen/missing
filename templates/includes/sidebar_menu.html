@@ -1,0 +1,9 @@
+<!-- templates/includes/sidebar_menu.html -->
+<nav class="nav flex-column">
+    <a class="nav-link{% if request.endpoint == 'person' %} active{% endif %}" href="{{ url_for('person') }}">Person</a>
+    <a class="nav-link{% if request.endpoint == 'person' %} active{% endif %}" href="{{ url_for('alias') }}">Alias</a>
+    <a class="nav-link{% if request.endpoint == 'address' %} active{% endif %}" href="{{ url_for('address') }}">Address</a>
+    <a class="nav-link{% if request.endpoint == 'phone' %} active{% endif %}" href="{{ url_for('phone') }}">Phone</a>
+    <a class="nav-link{% if request.endpoint == 'email' %} active{% endif %}" href="{{ url_for('email') }}">Email</a>
+    <a class="nav-link{% if request.endpoint == 'view_person' %} active{% endif %}" href="{{ url_for('view_person') }}">View Person</a>
+</nav>

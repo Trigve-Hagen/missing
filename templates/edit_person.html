@@ -1,0 +1,171 @@
+<!-- templates/person.html -->
+{% extends 'layout.html' %}
+
+{% block title %}Edit Person{% endblock %}
+
+{% block content %}
+
+<h1 class="my-4">Edit Person</h1>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="alert alert-{{ category }}">
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+<div class="row">
+  <div class="col-md-12">
+    <a href="{{ url_for('person') }}" class="btn btn-primary mb-3">back</a>
+  </div>
+</div>
+
+<div class="row mt-5">
+  <div class="col-md-12">
+    <div class="row">
+      <div class="col-md-12">
+        <form class="row g-4" action="/set_person" method="POST" name="person" autocomplete="off">
+          <input type="hidden" class="form-control" id="person-id" name="id" value="{{ person_data.id }}" />
+          <div class="col-md-6">
+            <label for="person-type" class="form-label">Contact Type</label>
+            <select class="form-select" id="person-type" name="type" required>
+              <option value="">Choose...</option>
+              {% for type in contactTypes %}
+                {% if person_data.type == type.id %}
+                  <option value="{{ type.id }}" selected>{{ type.name }}</option>
+                {% else %}
+                  <option value="{{ type.id }}">{{ type.name }}</option>
+                {% endif %}
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label for="person-sirName" class="form-label">Sir Name</label>
+            <select class="form-select" id="person-sirName" name="sirName">
+              <option value="">Choose...</option>
+              {% for name in sir_names %}
+                {% if person_data.sirName == name %}
+                  <option value="{{ name }}" selected>{{ name }}</option>
+                {% else %}
+                  <option value="{{ name }}">{{ name }}</option>
+                {% endif %}
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col-md-3">
+            <label for="person-firstName" class="form-label">First name</label>
+            <input type="text" class="form-control" id="person-firstName" name="firstName" value="{{ person_data.firstName }}" required>
+          </div>
+          <div class="col-md-3">
+            <label for="person-middleName" class="form-label">Middle name</label>
+            <input type="text" class="form-control" id="person-middleName" name="middleName" value="{{ person_data.middleName }}" value="">
+          </div>
+          <div class="col-md-3">
+            <label for="person-lastName" class="form-label">Last name</label>
+            <input type="text" class="form-control" id="person-lastName" name="lastName" value="{{ person_data.lastName }}" required>
+          </div>
+          <div class="col-md-3">
+            <label for="person-suffix" class="form-label">Suffix</label>
+            <select class="form-select" id="person-suffix" name="suffix">
+              <option value="">Choose...</option>
+              {% for s in suffixes %}
+                {% if person_data.suffix == s %}
+                  <option value="{{ s }}" selected>{{ s }}</option>
+                {% else %}
+                  <option value="{{ s }}">{{ s }}</option>
+                {% endif %}
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col-md-3">
+            <label for="person-height" class="form-label">Height</label>
+            <select class="form-select" id="person-height" name="height">
+              <option value="">Choose...</option>
+              {% for value, label in height_options %}
+                {% if person_data.height == value %}
+                  <option value="{{ value }}" selected>{{ label }}</option>
+                {% else %}
+                  <option value="{{ value }}">{{ label }}</option>
+                {% endif %}
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col-md-3">
+            <label for="person-weight" class="form-label">Weight - Lbs</label>
+            <select class="form-select" id="person-weight" name="weight">
+              <option value="">Choose...</option>
+              {% for w in weight_options %}
+                {% if person_data.weight == w %}
+                  <option value="{{ w }}" selected>{{ w }}</option>
+                {% else %}
+                  <option value="{{ w }}">{{ w }}</option>
+                {% endif %}
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col-md-3">
+            <label for="person-hairColor" class="form-label">Hair Color</label>
+            <select class="form-select" id="person-hairColor" name="hairColor">
+              <option value="">Choose...</option>
+              {% for value, label in hair_color_codes %}
+                {% if person_data.hairColor == value %}
+                  <option value="{{ value }}" selected>{{ label }}</option>
+                {% else %}
+                  <option value="{{ value }}">{{ label }}</option>
+                {% endif %}
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col-md-3">
+            <label for="person-eyeColor" class="form-label">Eye Color</label>
+            <select class="form-select" id="person-eyeColor" name="eyeColor">
+              <option value="">Choose...</option>
+              {% for color in eye_colors %}
+                {% if person_data.eyeColor == color %}
+                  <option value="{{ color }}" selected>{{ color }}</option>
+                {% else %}
+                  <option value="{{ color }}">{{ color }}</option>
+                {% endif %}
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label for="person-ssn" class="form-label">SSN</label>
+            <input type="text" class="form-control" id="person-ssn" name="ssn" pattern="^\d{3}-\d{2}-\d{4}$"
+              placeholder="XXX-XX-XXXX" value="{{ person_data.ssn }}">
+          </div>
+          <div class="col-md-3">
+            <label for="person-gender" class="form-label">Gender</label>
+            <select class="form-select" id="person-gender" name="gender" required>
+              <option value="">Choose...</option>
+              {% if person_data.gender == "male" %}
+                <option value="male" selected>Male</option>
+              {% else %}
+                <option value="male">Male</option>
+              {% endif %}
+              {% if person_data.gender == "female" %}
+                <option value="female" selected>Female</option>
+              {% else %}
+                <option value="female">Female</option>
+              {% endif %}
+            </select>
+          </div>
+          <div class="col-md-3">
+            <label for="person-dob" class="form-label">DOB</label>
+            <input type="date" class="form-control" id="person-dob" name="dob" value="{{ person_data.dob }}" required>
+          </div>
+          <div class="col-12 mb-5">
+            <button class="btn btn-primary" type="submit">Save</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% include 'includes/delete_modal.html' %}
+
+{% endblock %}

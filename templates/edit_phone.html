@@ -1,0 +1,69 @@
+<!-- templates/search.html -->
+{% extends 'layout.html' %}
+
+{% block title %}Edit Phones{% endblock %}
+
+{% block content %}
+
+<h1 class="my-4">Edit Phones</h1>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="alert alert-{{ category }}">
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+<div class="row">
+  <div class="col-md-12">
+    <a href="{{ url_for('phone') }}" class="btn btn-primary mb-3">back</a>
+  </div>
+</div>
+
+<div class="row mt-5">
+  <div class="col-md-12">
+    <form class="row g-4" action="/set_phone" method="POST" name="phone" autocomplete="off">
+      <input type="hidden" class="form-control" id="phone-id" name="id" value="{{ phone_data.id }}" />
+      <div class="col-md-6">
+        <label for="phone-type" class="form-label">Type</label>
+        <select class="form-select" id="phone-type" name="type" required>
+          <option value="">Choose...</option>
+          {% for type in phoneTypes %}
+            {% if phone_data.type == type.id %}
+              <option value="{{ type.id }}" selected>{{ type.name }}</option>
+            {% else %}
+              <option value="{{ type.id }}">{{ type.name }}</option>
+            {% endif %}
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-md-6">
+        <label for="phone-phone" class="form-label">Phone</label>
+        <input type="tel" class="form-control" id="phone-phone" name="phone" value="{{ phone_data.phone }}" required>
+      </div>
+      <div class="col-md-4">
+        <label for="phone-owner" class="form-label">Person</label>
+        <select class="form-select" id="phone-owner" name="owner" required>
+          <option value="">Choose...</option>
+          {% for person in owners %}
+            {% if phone_data.owner == person.id %}
+              <option value="{{ person.id }}" selected>{{ person.sirName }} {{ person.firstName }} {{ person.middleName }} {{ person.lastName }} {{ person.suffix }}</option>
+            {% else %}
+              <option value="{{ person.id }}">{{ person.sirName }} {{ person.firstName }} {{ person.middleName }} {{ person.lastName }} {{ person.suffix }}</option>
+            {% endif %}
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-12 mb-5">
+        <button class="btn btn-primary" type="submit">Save</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+{% include 'includes/delete_modal.html' %}
+
+{% endblock %}

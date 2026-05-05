@@ -1,0 +1,24 @@
+# Byte-code files
+__pycache__/
+*.pyc
+*.pyd
+*.pyo
+
+# Virtual environment
+venv/
+env/
+.venv/
+
+# Environment Variables
+.env
+
+# Editor/OS temporary files
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# pyinstaller
+build/
+dist/
+app.spec

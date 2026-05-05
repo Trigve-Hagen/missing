@@ -1,0 +1,60 @@
+<!-- templates/search.html -->
+{% extends 'layout.html' %}
+
+{% block title %}Edit Category{% endblock %}
+
+{% block content %}
+
+<h1 class="my-4">Edit Category</h1>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="alert alert-{{ category }}">
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+<div class="row">
+  <div class="col-md-12">
+    <a href="{{ url_for('category') }}" class="btn btn-primary mb-3">back</a>
+  </div>
+</div>
+
+<div class="row mt-5">
+  <div class="col-md-12">
+    <div class="row">
+      <div class="col-md-12">
+        <form class="row g-4" action="/set_category" method="POST" name="category" autocomplete="off">
+          <input type="hidden" class="form-control" id="category-id" name="id" value="{{ category_data.id }}" />
+          <div class="col-md-6">
+            <label for="category-type" class="form-label">Type</label>
+            <select class="form-select" id="category-type" name="type" required>
+              <option value="">Choose...</option>
+              {% for value, label in category_types %}
+                {% if category_data.type == value %}
+                  <option value="{{ value }}" selected>{{ label }}</option>
+                {% else %}
+                  <option value="{{ value }}">{{ label }}</option>
+                {% endif %}
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label for="category-name" class="form-label">Name</label>
+            <input type="text" class="form-control" id="category-name" name="name" value="{{ category_data.name }}" required>
+          </div>
+          <div class="col-12 mb-5">
+            <button class="btn btn-primary" type="submit">Save</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% include 'includes/delete_modal.html' %}
+
+{% endblock %}

@@ -1,0 +1,24 @@
+/* menu */
+.sidebar-menu {
+  padding: 10px;
+}
+
+.sidebar-menu ul,
+.sidebar-menu li {
+  list-style: none;
+}
+
+.sidebar-menu ul li:first-child a {
+  width: 100%;
+  display: block;
+  padding: 7px 10px;
+  /* border-top: 1px solid var(--font-color4);
+  border-bottom: 1px solid var(--font-color4); */
+}
+
+.sidebar-menu ul li:not(:first-child) a {
+  width: 100%;
+  display: block;
+  padding: 7px 10px;
+  /* border-bottom: 1px solid var(--font-color4); */
+}

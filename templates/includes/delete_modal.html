@@ -1,0 +1,27 @@
+<div class="modal modal-lg fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="deleteModalLabel">Delete</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form class="row g-4" action="/delete_item" method="POST" name="delete">
+          <input type="hidden" class="form-control" id="delete-id" name="id" />
+          <input type="hidden" class="form-control" id="delete-type" name="type" />
+          <div class="mb-3">
+            <p id="delete-item-id"></p>
+            <p id="delete-item-type"></p>
+            <p id="delete-item"></p>
+          </div>
+          <div class="col-12">
+            <button class="btn btn-danger" type="submit">Delete</button>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
